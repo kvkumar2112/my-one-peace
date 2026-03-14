@@ -1,0 +1,17 @@
+# Frontend
+sunny-ui/node_modules/
+sunny-ui/dist/
+sunny-ui/.env
+sunny-ui/.env.local
+
+# Backend
+nakama-service/__pycache__/
+nakama-service/*.pyc
+nakama-service/.env
+nakama-service/venv/
+nakama-service/.venv/
+nakama-service/uploads/
+
+# General
+.DS_Store
+*.log
