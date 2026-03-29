@@ -1,0 +1,142 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:740px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn-primary{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.summary-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.metric-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.metric-label{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.metric-delta{font-size:12px;margin-top:6px;}
+.safe{color:#0F6E56;}.warn{color:#BA7517;}.over{color:#993C1D;}
+.budgets-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.bcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.bcard.over-limit{border-color:#F09595;}
+.bcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.bcat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.bcat-name{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.bcat-sub{font-size:12px;color:var(--color-text-tertiary);margin-top:2px;}
+.badge{font-size:11px;padding:3px 9px;border-radius:99px;font-weight:500;}
+.badge-safe{background:#E1F5EE;color:#0F6E56;}
+.badge-warn{background:#FAEEDA;color:#854F0B;}
+.badge-over{background:#FCEBEB;color:#A32D2D;}
+.prog-row{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-tertiary);margin-bottom:6px;}
+.prog-spent{font-weight:500;font-family:'DM Mono',monospace;color:var(--color-text-primary);}
+.prog-limit{font-family:'DM Mono',monospace;}
+.bar-bg{height:6px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;transition:width 0.3s;}
+.remaining{font-size:12px;margin-top:8px;color:var(--color-text-tertiary);}
+</style>
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item active"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="avatar-row"><div class="avatar">AK</div><div><div class="av-name">Arjun K.</div><div class="av-plan">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="page-title">Budgets</div><div class="page-sub">March 2026 · 5 of 6 on track</div></div>
+      <button class="btn-primary">+ New budget</button>
+    </div>
+    <div class="summary-row">
+      <div class="metric-card"><div class="metric-label">Total budgeted</div><div class="metric-val">₹62,000</div><div class="metric-delta" style="color:var(--color-text-tertiary);">across 6 categories</div></div>
+      <div class="metric-card"><div class="metric-label">Spent so far</div><div class="metric-val">₹52,340</div><div class="metric-delta safe">↓ ₹9,660 remaining</div></div>
+      <div class="metric-card"><div class="metric-label">Over budget</div><div class="metric-val" style="color:#A32D2D;">1</div><div class="metric-delta over">Shopping exceeded</div></div>
+    </div>
+    <div class="budgets-grid">
+      <div class="bcard">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#E1F5EE;">🏠</div>
+            <div><div class="bcat-name">Housing</div><div class="bcat-sub">Rent & utilities</div></div>
+          </div>
+          <span class="badge badge-safe">On track</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent">₹22,000</span><span class="prog-limit">of ₹25,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:88%;background:#1D9E75;"></div></div>
+        <div class="remaining safe">₹3,000 remaining</div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#E6F1FB;">🍜</div>
+            <div><div class="bcat-name">Food & dining</div><div class="bcat-sub">Groceries & eating out</div></div>
+          </div>
+          <span class="badge badge-safe">On track</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent">₹11,520</span><span class="prog-limit">of ₹15,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:77%;background:#378ADD;"></div></div>
+        <div class="remaining safe">₹3,480 remaining</div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#FAEEDA;">🚗</div>
+            <div><div class="bcat-name">Transport</div><div class="bcat-sub">Cab, fuel, metro</div></div>
+          </div>
+          <span class="badge badge-warn">Nearly full</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent">₹8,380</span><span class="prog-limit">of ₹9,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:93%;background:#EF9F27;"></div></div>
+        <div class="remaining warn">₹620 remaining</div>
+      </div>
+      <div class="bcard over-limit">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#FAECE7;">🛍</div>
+            <div><div class="bcat-name">Shopping</div><div class="bcat-sub">Clothes, gadgets, misc</div></div>
+          </div>
+          <span class="badge badge-over">Over budget</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent" style="color:#A32D2D;">₹7,860</span><span class="prog-limit">of ₹6,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:100%;background:#E24B4A;"></div></div>
+        <div class="remaining over">₹1,860 over limit</div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#EEEDFE;">🎬</div>
+            <div><div class="bcat-name">Entertainment</div><div class="bcat-sub">OTT, events, games</div></div>
+          </div>
+          <span class="badge badge-safe">On track</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent">₹2,580</span><span class="prog-limit">of ₹4,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:65%;background:#7F77DD;"></div></div>
+        <div class="remaining safe">₹1,420 remaining</div>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top">
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div class="bcat-icon" style="background:#EAF3DE;">💊</div>
+            <div><div class="bcat-name">Health</div><div class="bcat-sub">Pharmacy, gym, doctor</div></div>
+          </div>
+          <span class="badge badge-safe">On track</span>
+        </div>
+        <div class="prog-row"><span class="prog-spent">₹0</span><span class="prog-limit">of ₹3,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#639922;"></div></div>
+        <div class="remaining safe">₹3,000 remaining</div>
+      </div>
+    </div>
+  </div>
+</div>

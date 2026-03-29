@@ -1,0 +1,117 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:780px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn-primary{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.metric-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.metric-label{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;}
+.metric-val{font-size:20px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.metric-delta{font-size:12px;margin-top:6px;}.up{color:#0F6E56;}.dn{color:#993C1D;}
+.mid{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.chart-area{position:relative;height:180px;}
+.alloc-list{display:flex;flex-direction:column;gap:10px;}
+.alloc-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+.alloc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.alloc-name{color:var(--color-text-primary);flex:1;}
+.alloc-pct{font-family:'DM Mono',monospace;font-size:12px;color:var(--color-text-secondary);}
+.alloc-amt{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--color-text-primary);}
+.holdings-table{width:100%;border-collapse:collapse;}
+.holdings-table th{font-size:11.5px;color:var(--color-text-tertiary);font-weight:400;text-align:left;padding:0 0 10px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.holdings-table th:not(:first-child){text-align:right;}
+.holdings-table td{padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;color:var(--color-text-primary);vertical-align:middle;}
+.holdings-table td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;}
+.holdings-table tr:last-child td{border-bottom:none;}
+.h-name{font-weight:500;font-size:13px;}
+.h-sub{font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;}
+.ticker{display:inline-block;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:10.5px;padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;margin-bottom:2px;}
+</style>
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item active"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="avatar-row"><div class="avatar">AK</div><div><div class="av-name">Arjun K.</div><div class="av-plan">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="page-title">Investments & portfolio</div><div class="page-sub">Last updated today · XIRR 14.2%</div></div>
+      <button class="btn-primary">+ Add holding</button>
+    </div>
+    <div class="metrics">
+      <div class="metric-card"><div class="metric-label">Portfolio value</div><div class="metric-val">₹12.6L</div><div class="metric-delta up">↑ 14.2% XIRR</div></div>
+      <div class="metric-card"><div class="metric-label">Total invested</div><div class="metric-val">₹10.2L</div><div class="metric-delta" style="color:var(--color-text-tertiary);">since Jan 2022</div></div>
+      <div class="metric-card"><div class="metric-label">Unrealised P&L</div><div class="metric-val">₹2.4L</div><div class="metric-delta up">↑ 23.5% gain</div></div>
+      <div class="metric-card"><div class="metric-label">Today's change</div><div class="metric-val">+₹4,280</div><div class="metric-delta up">↑ 0.34% today</div></div>
+    </div>
+    <div class="mid">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Portfolio performance</span></div>
+        <div class="chart-area"><canvas id="perfChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Allocation</span></div>
+        <div class="alloc-list">
+          <div class="alloc-row"><span class="alloc-dot" style="background:#1D9E75;"></span><span class="alloc-name">Mutual funds</span><span class="alloc-pct">48%</span><span class="alloc-amt">₹6.1L</span></div>
+          <div class="alloc-row"><span class="alloc-dot" style="background:#378ADD;"></span><span class="alloc-name">Stocks</span><span class="alloc-pct">28%</span><span class="alloc-amt">₹3.5L</span></div>
+          <div class="alloc-row"><span class="alloc-dot" style="background:#EF9F27;"></span><span class="alloc-name">Gold ETF</span><span class="alloc-pct">12%</span><span class="alloc-amt">₹1.5L</span></div>
+          <div class="alloc-row"><span class="alloc-dot" style="background:#7F77DD;"></span><span class="alloc-name">PPF / EPF</span><span class="alloc-pct">8%</span><span class="alloc-amt">₹1.0L</span></div>
+          <div class="alloc-row"><span class="alloc-dot" style="background:#B4B2A9;"></span><span class="alloc-name">Fixed deposit</span><span class="alloc-pct">4%</span><span class="alloc-amt">₹0.5L</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Holdings</span></div>
+      <table class="holdings-table">
+        <thead><tr><th>Name</th><th>Invested</th><th>Current</th><th>P&L</th><th>Return</th></tr></thead>
+        <tbody>
+          <tr><td><div class="ticker">NIFTY50</div><div class="h-name">Nifty 50 Index Fund</div><div class="h-sub">Zerodha AMC · Direct</div></td><td>₹3,20,000</td><td>₹4,01,200</td><td style="color:#0F6E56;">+₹81,200</td><td style="color:#0F6E56;">+25.4%</td></tr>
+          <tr><td><div class="ticker">MIDCAP</div><div class="h-name">Midcap 150 Fund</div><div class="h-sub">Parag Parikh · Direct</div></td><td>₹2,00,000</td><td>₹2,34,600</td><td style="color:#0F6E56;">+₹34,600</td><td style="color:#0F6E56;">+17.3%</td></tr>
+          <tr><td><div class="ticker">INFY</div><div class="h-name">Infosys Ltd.</div><div class="h-sub">NSE · 42 shares</div></td><td>₹1,40,000</td><td>₹1,62,540</td><td style="color:#0F6E56;">+₹22,540</td><td style="color:#0F6E56;">+16.1%</td></tr>
+          <tr><td><div class="ticker">GOLDETF</div><div class="h-name">SBI Gold ETF</div><div class="h-sub">BSE · 18 units</div></td><td>₹1,50,000</td><td>₹1,53,200</td><td style="color:#0F6E56;">+₹3,200</td><td style="color:#0F6E56;">+2.1%</td></tr>
+          <tr><td><div class="ticker">ZOMATO</div><div class="h-name">Zomato Ltd.</div><div class="h-sub">NSE · 210 shares</div></td><td>₹88,000</td><td>₹76,230</td><td style="color:#993C1D;">−₹11,770</td><td style="color:#993C1D;">−13.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+const tc=isDark?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.35)';
+const gc=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+const months=['Apr','Jun','Aug','Oct','Dec','Feb','Mar'];
+const portfolio=[880000,920000,970000,1020000,1090000,1210000,1260000];
+const invested=[820000,880000,920000,960000,1000000,1040000,1020000];
+new Chart(document.getElementById('perfChart'),{
+  type:'line',
+  data:{labels:months,datasets:[
+    {label:'Portfolio',data:portfolio,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.08)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#1D9E75',borderWidth:2},
+    {label:'Invested',data:invested,borderColor:'#B4B2A9',backgroundColor:'transparent',fill:false,tension:0.4,pointRadius:0,borderWidth:1.5,borderDash:[4,4]}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:8,boxHeight:8,usePointStyle:true,pointStyle:'circle',font:{size:11},color:tc,padding:16}}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:tc},border:{display:false}},y:{grid:{color:gc},ticks:{font:{size:11},color:tc,callback:v=>'₹'+(v/100000).toFixed(1)+'L'},border:{display:false}}}}
+});
+</script>

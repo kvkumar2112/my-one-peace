@@ -1,0 +1,131 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:760px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn-primary{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.metric-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.metric-label{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.metric-delta{font-size:12px;margin-top:6px;color:var(--color-text-tertiary);}
+.goals-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+.goal-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:20px;}
+.goal-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.goal-emoji{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.goal-name{font-size:15px;font-weight:500;color:var(--color-text-primary);}
+.goal-deadline{font-size:12px;color:var(--color-text-tertiary);margin-top:3px;}
+.goal-badge{margin-left:auto;font-size:11px;padding:3px 9px;border-radius:99px;font-weight:500;white-space:nowrap;}
+.badge-on{background:#E1F5EE;color:#0F6E56;}
+.badge-behind{background:#FAEEDA;color:#854F0B;}
+.badge-done{background:#EAF3DE;color:#3B6D11;}
+.amounts-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.saved-amt{font-size:20px;font-weight:500;font-family:'DM Mono',monospace;color:var(--color-text-primary);}
+.target-amt{font-size:13px;color:var(--color-text-tertiary);font-family:'DM Mono',monospace;}
+.bar-bg{height:7px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;margin-bottom:10px;}
+.bar-fill{height:100%;border-radius:99px;}
+.goal-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-tertiary);}
+.monthly-contrib{font-weight:500;color:var(--color-text-secondary);}
+.add-goal{border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;min-height:160px;}
+.add-icon{width:40px;height:40px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--color-text-tertiary);}
+.add-label{font-size:13.5px;color:var(--color-text-tertiary);font-weight:500;}
+.add-sub{font-size:12px;color:var(--color-text-tertiary);opacity:0.7;}
+</style>
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item active"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L8 3L13 13M5.5 9.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Goals</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="avatar-row"><div class="avatar">AK</div><div><div class="av-name">Arjun K.</div><div class="av-plan">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="page-title">Savings goals</div><div class="page-sub">4 active goals · ₹4.98L saved total</div></div>
+      <button class="btn-primary">+ New goal</button>
+    </div>
+    <div class="summary">
+      <div class="metric-card"><div class="metric-label">Total saved</div><div class="metric-val">₹4.98L</div><div class="metric-delta">across 4 active goals</div></div>
+      <div class="metric-card"><div class="metric-label">Monthly contribution</div><div class="metric-val">₹28,000</div><div class="metric-delta">auto-transferred on 5th</div></div>
+      <div class="metric-card"><div class="metric-label">Goals completed</div><div class="metric-val">2</div><div class="metric-delta">this year</div></div>
+    </div>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-emoji" style="background:#E1F5EE;">🛡</div>
+          <div>
+            <div class="goal-name">Emergency fund</div>
+            <div class="goal-deadline">Target: Dec 2026</div>
+          </div>
+          <span class="goal-badge badge-on">On track</span>
+        </div>
+        <div class="amounts-row"><span class="saved-amt">₹3,20,000</span><span class="target-amt">of ₹5,00,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:64%;background:#1D9E75;"></div></div>
+        <div class="goal-meta"><span>64% complete</span><span class="monthly-contrib">+₹12,000/mo</span></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-emoji" style="background:#E6F1FB;">✈️</div>
+          <div>
+            <div class="goal-name">Europe trip</div>
+            <div class="goal-deadline">Target: Sep 2026</div>
+          </div>
+          <span class="goal-badge badge-behind">Behind</span>
+        </div>
+        <div class="amounts-row"><span class="saved-amt">₹68,000</span><span class="target-amt">of ₹2,00,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:34%;background:#378ADD;"></div></div>
+        <div class="goal-meta"><span>34% complete</span><span class="monthly-contrib">+₹8,000/mo</span></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-emoji" style="background:#FAEEDA;">💻</div>
+          <div>
+            <div class="goal-name">MacBook Pro</div>
+            <div class="goal-deadline">Target: Jun 2026</div>
+          </div>
+          <span class="goal-badge badge-on">On track</span>
+        </div>
+        <div class="amounts-row"><span class="saved-amt">₹1,10,000</span><span class="target-amt">of ₹1,75,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:63%;background:#EF9F27;"></div></div>
+        <div class="goal-meta"><span>63% complete</span><span class="monthly-contrib">+₹5,000/mo</span></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-header">
+          <div class="goal-emoji" style="background:#EEEDFE;">🏡</div>
+          <div>
+            <div class="goal-name">Home down payment</div>
+            <div class="goal-deadline">Target: Mar 2029</div>
+          </div>
+          <span class="goal-badge badge-on">On track</span>
+        </div>
+        <div class="amounts-row"><span class="saved-amt">₹80,000</span><span class="target-amt">of ₹15,00,000</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:5%;background:#7F77DD;"></div></div>
+        <div class="goal-meta"><span>5% complete</span><span class="monthly-contrib">+₹3,000/mo</span></div>
+      </div>
+      <div class="add-goal">
+        <div class="add-icon">+</div>
+        <div class="add-label">Create a new goal</div>
+        <div class="add-sub">Holiday, gadget, house & more</div>
+      </div>
+    </div>
+  </div>
+</div>

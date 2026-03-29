@@ -1,0 +1,109 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:760px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn-primary{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.section-label{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:12px;}
+.cards-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:24px;}
+.bank-card{border-radius:var(--border-radius-lg);padding:20px;color:#fff;display:flex;flex-direction:column;gap:10px;min-height:130px;position:relative;overflow:hidden;}
+.bank-card::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.bank-card::before{content:'';position:absolute;right:20px;top:40px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.bc-bank{font-size:11.5px;opacity:0.75;font-weight:500;letter-spacing:0.04em;}
+.bc-bal{font-size:22px;font-weight:500;font-family:'DM Mono',monospace;margin-top:auto;}
+.bc-num{font-size:12px;opacity:0.65;font-family:'DM Mono',monospace;}
+.bc-type{font-size:11px;opacity:0.6;background:rgba(255,255,255,0.15);display:inline-block;padding:2px 8px;border-radius:99px;}
+.add-card{border:0.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:130px;}
+.add-icon{width:32px;height:32px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--color-text-tertiary);}
+.add-label{font-size:13px;color:var(--color-text-tertiary);}
+.accounts-table{width:100%;border-collapse:collapse;}
+.accounts-table th{font-size:11.5px;color:var(--color-text-tertiary);font-weight:400;text-align:left;padding:0 0 10px;border-bottom:0.5px solid var(--color-border-tertiary);}
+.accounts-table th:not(:first-child){text-align:right;}
+.accounts-table td{padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;vertical-align:middle;}
+.accounts-table td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--color-text-primary);}
+.accounts-table tr:last-child td{border-bottom:none;}
+.acc-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.acc-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.acc-sub{font-size:11.5px;color:var(--color-text-tertiary);}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block;margin-right:5px;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:16px;}
+</style>
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item active"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="avatar-row"><div class="avatar">AK</div><div><div class="av-name">Arjun K.</div><div class="av-plan">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="page-title">Accounts & cards</div><div class="page-sub">4 linked accounts · ₹5.8L total balance</div></div>
+      <button class="btn-primary">+ Link account</button>
+    </div>
+    <div class="section-label">Linked bank accounts</div>
+    <div class="cards-row">
+      <div class="bank-card" style="background:linear-gradient(135deg,#1D9E75,#085041);">
+        <div class="bc-bank">HDFC BANK</div>
+        <div class="bc-type">Savings account</div>
+        <div class="bc-bal">₹2,34,820</div>
+        <div class="bc-num">•••• •••• 4821</div>
+      </div>
+      <div class="bank-card" style="background:linear-gradient(135deg,#185FA5,#042C53);">
+        <div class="bc-bank">ICICI BANK</div>
+        <div class="bc-type">Salary account</div>
+        <div class="bc-bal">₹1,20,000</div>
+        <div class="bc-num">•••• •••• 7734</div>
+      </div>
+      <div class="bank-card" style="background:linear-gradient(135deg,#534AB7,#26215C);">
+        <div class="bc-bank">AXIS BANK</div>
+        <div class="bc-type">Savings account</div>
+        <div class="bc-bal">₹87,450</div>
+        <div class="bc-num">•••• •••• 2290</div>
+      </div>
+    </div>
+    <div class="cards-row" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+      <div class="bank-card" style="background:linear-gradient(135deg,#BA7517,#412402);">
+        <div class="bc-bank">HDFC BANK</div>
+        <div class="bc-type">Credit card</div>
+        <div class="bc-bal">−₹44,320 due</div>
+        <div class="bc-num">•••• •••• 9912</div>
+      </div>
+      <div class="add-card">
+        <div class="add-icon">+</div>
+        <div class="add-label">Link new account</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Account details</div>
+      <table class="accounts-table">
+        <thead><tr><th>Account</th><th>Balance</th><th>Last synced</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="acc-icon" style="background:#E1F5EE;">🏦</div><div><div class="acc-name">HDFC Savings</div><div class="acc-sub">••4821 · Savings</div></div></div></td><td>₹2,34,820</td><td style="color:var(--color-text-tertiary);">2 min ago</td><td><span class="status-dot"></span><span style="font-size:12.5px;color:#0F6E56;font-family:inherit;">Active</span></td></tr>
+          <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="acc-icon" style="background:#E6F1FB;">🏦</div><div><div class="acc-name">ICICI Salary</div><div class="acc-sub">••7734 · Salary</div></div></div></td><td>₹1,20,000</td><td style="color:var(--color-text-tertiary);">2 min ago</td><td><span class="status-dot"></span><span style="font-size:12.5px;color:#0F6E56;font-family:inherit;">Active</span></td></tr>
+          <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="acc-icon" style="background:#EEEDFE;">🏦</div><div><div class="acc-name">Axis Savings</div><div class="acc-sub">••2290 · Savings</div></div></div></td><td>₹87,450</td><td style="color:var(--color-text-tertiary);">5 min ago</td><td><span class="status-dot"></span><span style="font-size:12.5px;color:#0F6E56;font-family:inherit;">Active</span></td></tr>
+          <tr><td><div style="display:flex;align-items:center;gap:10px;"><div class="acc-icon" style="background:#FAEEDA;">💳</div><div><div class="acc-name">HDFC Credit Card</div><div class="acc-sub">••9912 · Credit</div></div></div></td><td style="color:#993C1D;">−₹44,320</td><td style="color:var(--color-text-tertiary);">1 hr ago</td><td><span class="status-dot" style="background:#EF9F27;"></span><span style="font-size:12.5px;color:#854F0B;font-family:inherit;">Due Apr 5</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:760px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;display:inline-block;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;flex-shrink:0;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.filters{display:flex;gap:8px;}
+.pill{padding:6px 14px;border-radius:99px;font-size:12.5px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);cursor:pointer;font-family:'DM Sans',sans-serif;background:var(--color-background-primary);}
+.pill.active{background:#1D9E75;color:#fff;border-color:#1D9E75;}
+.top-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.metric-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.metric-label{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.metric-delta{font-size:12px;margin-top:6px;}
+.delta-up{color:#0F6E56;}.delta-dn{color:#993C1D;}
+.mid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.card-link{font-size:12px;color:#1D9E75;cursor:pointer;}
+.chart-area{position:relative;height:180px;}
+.cat-list{display:flex;flex-direction:column;gap:10px;}
+.cat-row{display:flex;flex-direction:column;gap:4px;}
+.cat-top{display:flex;justify-content:space-between;align-items:center;}
+.cat-name{font-size:13px;color:var(--color-text-primary);}
+.cat-amt{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--color-text-primary);}
+.bar-bg{height:4px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;}
+.tx-list{display:flex;flex-direction:column;gap:2px;}
+.tx{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.tx:last-child{border-bottom:none;}
+.tx-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tx-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.tx-cat{font-size:11.5px;color:var(--color-text-tertiary);}
+.tx-amt{margin-left:auto;font-size:13.5px;font-weight:500;font-family:'DM Mono',monospace;color:#993C1D;}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;margin-left:8px;}
+</style>
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>
+      Overview
+    </div>
+    <div class="nav-item active">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Spending
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Budgets
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Investments
+    </div>
+    <div class="nav-sep"></div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Accounts
+    </div>
+    <div class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Settings
+    </div>
+    <div class="avatar-row">
+      <div class="avatar">AK</div>
+      <div><div class="av-name">Arjun K.</div><div class="av-plan">Pro plan</div></div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="page-title">Spending & expenses</div><div class="page-sub">March 2026 · All accounts</div></div>
+      <div class="filters">
+        <button class="pill">This week</button>
+        <button class="pill active">This month</button>
+        <button class="pill">3 months</button>
+        <button class="pill">Custom</button>
+      </div>
+    </div>
+    <div class="top-row">
+      <div class="metric-card">
+        <div class="metric-label">Total spent</div>
+        <div class="metric-val">₹52,340</div>
+        <div class="metric-delta delta-dn">↑ ₹3,200 vs last month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg. daily spend</div>
+        <div class="metric-val">₹1,741</div>
+        <div class="metric-delta delta-up">↓ ₹120 vs last month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Transactions</div>
+        <div class="metric-val">38</div>
+        <div class="metric-delta delta-up">↓ 4 vs last month</div>
+      </div>
+    </div>
+    <div class="mid">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Daily spending</span></div>
+        <div class="chart-area"><canvas id="lineChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">By category</span></div>
+        <div class="cat-list">
+          <div class="cat-row">
+            <div class="cat-top"><span class="cat-name">Housing</span><span class="cat-amt">₹22,000</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width:100%;background:#1D9E75;"></div></div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-top"><span class="cat-name">Food & dining</span><span class="cat-amt">₹11,520</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width:52%;background:#378ADD;"></div></div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-top"><span class="cat-name">Transport</span><span class="cat-amt">₹8,380</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width:38%;background:#EF9F27;"></div></div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-top"><span class="cat-name">Shopping</span><span class="cat-amt">₹7,860</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width:35%;background:#D85A30;"></div></div>
+          </div>
+          <div class="cat-row">
+            <div class="cat-top"><span class="cat-name">Entertainment</span><span class="cat-amt">₹2,580</span></div>
+            <div class="bar-bg"><div class="bar-fill" style="width:12%;background:#7F77DD;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">All transactions</span><span class="card-link">Export CSV →</span></div>
+      <div class="tx-list">
+        <div class="tx"><div class="tx-icon" style="background:#E1F5EE;">🏠</div><div><div class="tx-name">Rent — HSR Layout</div><div class="tx-cat">Housing · Mar 1</div></div><div class="tx-amt">−₹22,000</div></div>
+        <div class="tx"><div class="tx-icon" style="background:#E6F1FB;">🛒</div><div><div class="tx-name">Zepto grocery order</div><div class="tx-cat">Food · Mar 5</div></div><div class="tx-amt">−₹1,240</div></div>
+        <div class="tx"><div class="tx-icon" style="background:#FAEEDA;">🚗</div><div><div class="tx-name">Ola ride — office</div><div class="tx-cat">Transport · Mar 7</div></div><div class="tx-amt">−₹340</div></div>
+        <div class="tx"><div class="tx-icon" style="background:#FAECE7;">📱</div><div><div class="tx-name">Amazon — OnePlus cable</div><div class="tx-cat">Shopping · Mar 9</div></div><div class="tx-amt">−₹899</div></div>
+        <div class="tx"><div class="tx-icon" style="background:#EEEDFE;">🎬</div><div><div class="tx-name">Netflix subscription</div><div class="tx-cat">Entertainment · Mar 10</div></div><div class="tx-amt">−₹649</div></div>
+        <div class="tx"><div class="tx-icon" style="background:#E6F1FB;">🍜</div><div><div class="tx-name">Swiggy — dinner</div><div class="tx-cat">Food · Mar 12</div></div><div class="tx-amt">−₹580</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+const textCol = isDark?'rgba(255,255,255,0.4)':'rgba(0,0,0,0.35)';
+const gridCol = isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.06)';
+const days = ['1','3','5','7','9','11','13','15'];
+const vals = [22340,1200,1580,890,1240,2100,760,1430];
+new Chart(document.getElementById('lineChart'),{
+  type:'line',
+  data:{labels:days,datasets:[{label:'Spent',data:vals,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.08)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#1D9E75',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:11},color:textCol},border:{display:false}},y:{grid:{color:gridCol},ticks:{font:{size:11},color:textCol,callback:v=>'₹'+(v/1000).toFixed(1)+'k'},border:{display:false}}}}
+});
+</script>

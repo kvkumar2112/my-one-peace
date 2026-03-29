@@ -1,0 +1,458 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;background:var(--color-background-tertiary);}
+.page-nav{display:flex;gap:6px;padding:0 0 24px 0;flex-wrap:wrap;}
+.pn-btn{padding:8px 16px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.pn-btn.active{background:#1D9E75;color:#fff;border-color:#1D9E75;}
+.screen{display:none;} .screen.active{display:grid;}
+.dash{grid-template-columns:220px 1fr;min-height:760px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;display:inline-block;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:default;}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.ni{width:14px;height:14px;flex-shrink:0;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.av-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.av{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;flex-shrink:0;}
+.main{padding:28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;}
+.pg-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.pg-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.btn-ghost{background:transparent;color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:8px 16px;font-size:13px;font-family:inherit;cursor:pointer;}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.met{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.met-lbl{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;}
+.met-val{font-size:21px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.met-d{font-size:12px;margin-top:6px;}
+.up{color:#0F6E56;} .dn{color:#993C1D;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.ct{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.cl{font-size:12px;color:#1D9E75;cursor:pointer;}
+.tx{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.tx:last-child{border-bottom:none;}
+.ti{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tn{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.tc{font-size:11.5px;color:var(--color-text-tertiary);}
+.ta{margin-left:auto;font-size:13.5px;font-weight:500;font-family:'DM Mono',monospace;}
+.ta.neg{color:#993C1D;} .ta.pos{color:#0F6E56;}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:99px;font-weight:500;}
+.tag-food{background:#E1F5EE;color:#0F6E56;}
+.tag-home{background:#E6F1FB;color:#185FA5;}
+.tag-tr{background:#FAEEDA;color:#854F0B;}
+.tag-sh{background:#FAECE7;color:#993C1D;}
+.tag-inc{background:#EAF3DE;color:#3B6D11;}
+.tag-sub{background:#EEEDFE;color:#3C3489;}
+.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;}
+.three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+.bud-item{display:flex;flex-direction:column;gap:6px;padding:14px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.bud-item:last-child{border-bottom:none;}
+.bud-row{display:flex;justify-content:space-between;align-items:center;}
+.bud-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.bud-amt{font-size:12px;color:var(--color-text-tertiary);font-family:'DM Mono',monospace;}
+.pbar{height:6px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;}
+.pfill{height:100%;border-radius:99px;}
+.bud-pct{font-size:11.5px;color:var(--color-text-secondary);}
+.bud-warn{color:#854F0B;}
+.inv-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.inv-row:last-child{border-bottom:none;}
+.inv-logo{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;}
+.inv-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.inv-ticker{font-size:11.5px;color:var(--color-text-tertiary);}
+.inv-qty{font-size:12px;color:var(--color-text-secondary);}
+.inv-val{text-align:right;font-family:'DM Mono',monospace;}
+.inv-price{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.inv-chg{font-size:12px;}
+.goal-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px;}
+.goal-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px;}
+.goal-name{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;}
+.goal-sub{font-size:12px;color:var(--color-text-tertiary);margin-bottom:14px;font-family:'DM Mono',monospace;}
+.goal-pbar{height:6px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;margin-bottom:8px;}
+.goal-pfill{height:100%;border-radius:99px;}
+.goal-meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--color-text-secondary);}
+.acc-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;display:flex;align-items:center;gap:14px;}
+.acc-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.acc-name{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.acc-type{font-size:12px;color:var(--color-text-tertiary);}
+.acc-bal{margin-left:auto;text-align:right;}
+.acc-val{font-size:16px;font-weight:500;font-family:'DM Mono',monospace;color:var(--color-text-primary);}
+.acc-chg{font-size:12px;}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
+.pill{padding:5px 14px;border-radius:99px;font-size:12.5px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;}
+.pill.on{background:#1D9E75;color:#fff;border-color:#1D9E75;}
+.chart-wrap{position:relative;height:180px;}
+.mini-chart{position:relative;height:120px;}
+.spark{display:flex;align-items:flex-end;gap:3px;height:50px;}
+.bar{flex:1;border-radius:3px 3px 0 0;min-width:6px;}
+.section-label{font-size:12px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;}
+</style>
+
+<div class="page-nav">
+  <button class="pn-btn active" onclick="showPage('spending')">Spending</button>
+  <button class="pn-btn" onclick="showPage('budgets')">Budgets</button>
+  <button class="pn-btn" onclick="showPage('investments')">Investments</button>
+  <button class="pn-btn" onclick="showPage('goals')">Goals</button>
+  <button class="pn-btn" onclick="showPage('accounts')">Accounts</button>
+</div>
+
+<!-- SPENDING PAGE -->
+<div id="spending" class="screen active dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>Folia</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item active"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7L8 9L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 12V7M5 12V3M8 12V5M12 12V1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 12.5c0-2.761 2.239-4.5 5-4.5s5 1.739 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v.5M7 7v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="av-row"><div class="av">AK</div><div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Arjun K.</div><div style="font-size:11px;color:var(--color-text-tertiary);">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="pg-title">Spending</div><div class="pg-sub">Detailed breakdown · March 2026</div></div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-ghost">Export CSV</button>
+        <select style="padding:8px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);font-size:13px;font-family:inherit;background:var(--color-background-primary);color:var(--color-text-primary);"><option>March 2026</option><option>February 2026</option><option>January 2026</option></select>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="met"><div class="met-lbl">Total spent</div><div class="met-val">₹52,340</div><div class="met-d dn">↑ ₹3,200 vs Feb</div></div>
+      <div class="met"><div class="met-lbl">Transactions</div><div class="met-val">47</div><div class="met-d up">↓ 3 vs Feb</div></div>
+      <div class="met"><div class="met-lbl">Avg. per day</div><div class="met-val">₹1,689</div><div class="met-d" style="color:var(--color-text-tertiary);">31 days in month</div></div>
+      <div class="met"><div class="met-lbl">Largest spend</div><div class="met-val">₹22,000</div><div class="met-d" style="color:var(--color-text-tertiary);">Rent · Mar 1</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="ch"><span class="ct">Daily spending</span><div class="pill-row" style="margin:0;"><span class="pill on">Week</span><span class="pill">Month</span></div></div>
+        <div class="chart-wrap"><canvas id="spendChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">By category</span></div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🏠 Housing</span><span class="bud-amt">₹22,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:42%;background:#1D9E75;"></div></div>
+            <div class="bud-pct">42% of spend</div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🛒 Food & Grocery</span><span class="bud-amt">₹11,520</span></div>
+            <div class="pbar"><div class="pfill" style="width:22%;background:#378ADD;"></div></div>
+            <div class="bud-pct">22% of spend</div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🚗 Transport</span><span class="bud-amt">₹8,380</span></div>
+            <div class="pbar"><div class="pfill" style="width:16%;background:#EF9F27;"></div></div>
+            <div class="bud-pct">16% of spend</div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🛍 Shopping</span><span class="bud-amt">₹7,860</span></div>
+            <div class="pbar"><div class="pfill" style="width:15%;background:#D85A30;"></div></div>
+            <div class="bud-pct">15% of spend</div>
+          </div>
+          <div class="bud-item" style="border:none;">
+            <div class="bud-row"><span class="bud-name">📱 Subscriptions</span><span class="bud-amt">₹2,580</span></div>
+            <div class="pbar"><div class="pfill" style="width:5%;background:#7F77DD;"></div></div>
+            <div class="bud-pct">5% of spend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">All transactions</span><div style="display:flex;gap:8px;"><span class="pill on">All</span><span class="pill">Food</span><span class="pill">Housing</span><span class="pill">Transport</span><span class="pill">Shopping</span></div></div>
+      <div>
+        <div class="tx"><div class="ti" style="background:#E1F5EE;">🏠</div><div><div class="tn">Rent — HSR Layout</div><div class="tc">Mar 1 · <span class="tag tag-home">Housing</span></div></div><div class="ta neg">−₹22,000</div></div>
+        <div class="tx"><div class="ti" style="background:#E6F1FB;">☕</div><div><div class="tn">Blue Tokai Coffee</div><div class="tc">Mar 3 · <span class="tag tag-food">Food</span></div></div><div class="ta neg">−₹480</div></div>
+        <div class="tx"><div class="ti" style="background:#E6F1FB;">🛒</div><div><div class="tn">Zepto grocery order</div><div class="tc">Mar 5 · <span class="tag tag-food">Food</span></div></div><div class="ta neg">−₹1,240</div></div>
+        <div class="tx"><div class="ti" style="background:#FAEEDA;">🚗</div><div><div class="tn">Ola ride · Koramangala</div><div class="tc">Mar 7 · <span class="tag tag-tr">Transport</span></div></div><div class="ta neg">−₹340</div></div>
+        <div class="tx"><div class="ti" style="background:#FAECE7;">📱</div><div><div class="tn">Amazon — OnePlus cable</div><div class="tc">Mar 9 · <span class="tag tag-sh">Shopping</span></div></div><div class="ta neg">−₹899</div></div>
+        <div class="tx"><div class="ti" style="background:#EEEDFE;">🎵</div><div><div class="tn">Spotify Premium</div><div class="tc">Mar 10 · <span class="tag tag-sub">Subscription</span></div></div><div class="ta neg">−₹119</div></div>
+        <div class="tx"><div class="ti" style="background:#E6F1FB;">🍕</div><div><div class="tn">Swiggy — dinner</div><div class="tc">Mar 11 · <span class="tag tag-food">Food</span></div></div><div class="ta neg">−₹620</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGETS PAGE -->
+<div id="budgets" class="screen dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>Folia</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7L8 9L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item active"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 12V7M5 12V3M8 12V5M12 12V1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 12.5c0-2.761 2.239-4.5 5-4.5s5 1.739 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v.5M7 7v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="av-row"><div class="av">AK</div><div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Arjun K.</div><div style="font-size:11px;color:var(--color-text-tertiary);">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="pg-title">Budgets</div><div class="pg-sub">March 2026 · 16 days remaining</div></div>
+      <button class="btn">+ New budget</button>
+    </div>
+    <div class="metrics">
+      <div class="met"><div class="met-lbl">Total budgeted</div><div class="met-val">₹70,000</div><div class="met-d" style="color:var(--color-text-tertiary);">across 6 categories</div></div>
+      <div class="met"><div class="met-lbl">Spent so far</div><div class="met-val">₹52,340</div><div class="met-d up">74.8% used</div></div>
+      <div class="met"><div class="met-lbl">Remaining</div><div class="met-val">₹17,660</div><div class="met-d" style="color:var(--color-text-tertiary);">16 days left</div></div>
+      <div class="met"><div class="met-lbl">Over budget</div><div class="met-val" style="color:#993C1D;">1</div><div class="met-d dn">Shopping exceeded</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="ch"><span class="ct">Budget status</span><span class="cl">Edit all</span></div>
+        <div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🏠 Housing</span><span class="bud-amt">₹22,000 / ₹25,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:88%;background:#1D9E75;"></div></div>
+            <div class="bud-row"><div class="bud-pct">88% used</div><div class="bud-pct">₹3,000 left</div></div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🛒 Food & Grocery</span><span class="bud-amt">₹11,520 / ₹15,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:77%;background:#378ADD;"></div></div>
+            <div class="bud-row"><div class="bud-pct">77% used</div><div class="bud-pct">₹3,480 left</div></div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🚗 Transport</span><span class="bud-amt">₹8,380 / ₹10,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:84%;background:#EF9F27;"></div></div>
+            <div class="bud-row"><div class="bud-pct">84% used</div><div class="bud-pct">₹1,620 left</div></div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">🛍 Shopping</span><span class="bud-amt" style="color:#993C1D;">₹7,860 / ₹7,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:100%;background:#D85A30;"></div></div>
+            <div class="bud-row"><div class="bud-pct bud-warn">Over by ₹860</div><div class="tag tag-sh" style="font-size:10px;">Over budget</div></div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">📱 Subscriptions</span><span class="bud-amt">₹2,580 / ₹3,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:86%;background:#7F77DD;"></div></div>
+            <div class="bud-row"><div class="bud-pct">86% used</div><div class="bud-pct">₹420 left</div></div>
+          </div>
+          <div class="bud-item" style="border:none;">
+            <div class="bud-row"><span class="bud-name">🎉 Entertainment</span><span class="bud-amt">₹0 / ₹5,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:0%;background:#AFA9EC;"></div></div>
+            <div class="bud-row"><div class="bud-pct">0% used</div><div class="bud-pct">₹5,000 left</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="ch"><span class="ct">Monthly spend vs budget</span></div>
+          <div class="mini-chart"><canvas id="budgetChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Budget tip</span></div>
+          <div style="background:#FFF8EC;border-radius:var(--border-radius-md);padding:14px;border:0.5px solid #FAC775;">
+            <div style="font-size:13px;font-weight:500;color:#854F0B;margin-bottom:6px;">Shopping over budget</div>
+            <div style="font-size:12.5px;color:#633806;line-height:1.6;">You've exceeded your shopping budget by ₹860 with 16 days left. Consider holding off on non-essential purchases.</div>
+          </div>
+          <div style="background:#E1F5EE;border-radius:var(--border-radius-md);padding:14px;border:0.5px solid #9FE1CB;margin-top:10px;">
+            <div style="font-size:13px;font-weight:500;color:#085041;margin-bottom:6px;">Entertainment untouched</div>
+            <div style="font-size:12.5px;color:#04342C;line-height:1.6;">₹5,000 entertainment budget unused. Could be reallocated to savings or shopping.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVESTMENTS PAGE -->
+<div id="investments" class="screen dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>Folia</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7L8 9L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item active"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 12V7M5 12V3M8 12V5M12 12V1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 12.5c0-2.761 2.239-4.5 5-4.5s5 1.739 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v.5M7 7v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="av-row"><div class="av">AK</div><div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Arjun K.</div><div style="font-size:11px;color:var(--color-text-tertiary);">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="pg-title">Investments</div><div class="pg-sub">Portfolio overview · Live prices</div></div>
+      <button class="btn">+ Add holding</button>
+    </div>
+    <div class="metrics">
+      <div class="met"><div class="met-lbl">Portfolio value</div><div class="met-val">₹9.2L</div><div class="met-d up">↑ 11.4% all time</div></div>
+      <div class="met"><div class="met-lbl">Invested</div><div class="met-val">₹8.26L</div><div class="met-d" style="color:var(--color-text-tertiary);">cost basis</div></div>
+      <div class="met"><div class="met-lbl">Total gain</div><div class="met-val" style="color:#0F6E56;">+₹94,000</div><div class="met-d up">↑ ₹6,200 this month</div></div>
+      <div class="met"><div class="met-lbl">XIRR</div><div class="met-val">14.2%</div><div class="met-d up">vs Nifty 12.1%</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="ch"><span class="ct">Portfolio performance</span><div class="pill-row" style="margin:0;gap:6px;"><span class="pill on">1M</span><span class="pill">3M</span><span class="pill">1Y</span><span class="pill">All</span></div></div>
+        <div class="chart-wrap"><canvas id="invChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Allocation</span></div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">Mutual Funds</span><span class="bud-amt">₹5,04,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:55%;background:#1D9E75;"></div></div>
+            <div class="bud-pct">55% of portfolio</div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">Stocks</span><span class="bud-amt">₹2,76,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:30%;background:#378ADD;"></div></div>
+            <div class="bud-pct">30% of portfolio</div>
+          </div>
+          <div class="bud-item">
+            <div class="bud-row"><span class="bud-name">Fixed Deposits</span><span class="bud-amt">₹92,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:10%;background:#EF9F27;"></div></div>
+            <div class="bud-pct">10% of portfolio</div>
+          </div>
+          <div class="bud-item" style="border:none;">
+            <div class="bud-row"><span class="bud-name">Gold ETF</span><span class="bud-amt">₹46,000</span></div>
+            <div class="pbar"><div class="pfill" style="width:5%;background:#FAC775;"></div></div>
+            <div class="bud-pct">5% of portfolio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">Holdings</span><span class="cl">Sort by value</span></div>
+      <div>
+        <div class="inv-row">
+          <div class="inv-logo" style="background:#E1F5EE;color:#0F6E56;">MF</div>
+          <div><div class="inv-name">Mirae Asset Large Cap</div><div class="inv-ticker">Direct Growth · Mutual Fund</div></div>
+          <div class="inv-qty">42.31 units</div>
+          <div class="inv-val"><div class="inv-price">₹2,14,000</div><div class="inv-chg up">+12.4%</div></div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-logo" style="background:#E6F1FB;color:#185FA5;">TCS</div>
+          <div><div class="inv-name">Tata Consultancy Services</div><div class="inv-ticker">NSE · Large Cap</div></div>
+          <div class="inv-qty">12 shares</div>
+          <div class="inv-val"><div class="inv-price">₹1,08,000</div><div class="inv-chg up">+8.6%</div></div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-logo" style="background:#EEEDFE;color:#3C3489;">SBI</div>
+          <div><div class="inv-name">SBI Blue Chip Fund</div><div class="inv-ticker">Direct Growth · Mutual Fund</div></div>
+          <div class="inv-qty">180.5 units</div>
+          <div class="inv-val"><div class="inv-price">₹1,58,000</div><div class="inv-chg up">+9.1%</div></div>
+        </div>
+        <div class="inv-row">
+          <div class="inv-logo" style="background:#FAEEDA;color:#854F0B;">ITC</div>
+          <div><div class="inv-name">ITC Limited</div><div class="inv-ticker">NSE · Large Cap</div></div>
+          <div class="inv-qty">250 shares</div>
+          <div class="inv-val"><div class="inv-price">₹92,000</div><div class="inv-chg dn">−1.2%</div></div>
+        </div>
+        <div class="inv-row" style="border:none;">
+          <div class="inv-logo" style="background:#FAECE7;color:#993C1D;">GLD</div>
+          <div><div class="inv-name">Nippon India Gold ETF</div><div class="inv-ticker">NSE · Commodity</div></div>
+          <div class="inv-qty">18.2 units</div>
+          <div class="inv-val"><div class="inv-price">₹46,000</div><div class="inv-chg up">+3.8%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOALS PAGE -->
+<div id="goals" class="screen dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>Folia</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7L8 9L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 12V7M5 12V3M8 12V5M12 12V1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 12.5c0-2.761 2.239-4.5 5-4.5s5 1.739 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v.5M7 7v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="av-row"><div class="av">AK</div><div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Arjun K.</div><div style="font-size:11px;color:var(--color-text-tertiary);">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="pg-title">Savings Goals</div><div class="pg-sub">3 active · 1 completed</div></div>
+      <button class="btn">+ New goal</button>
+    </div>
+    <div class="metrics">
+      <div class="met"><div class="met-lbl">Total saved</div><div class="met-val">₹4,98,000</div><div class="met-d up">across all goals</div></div>
+      <div class="met"><div class="met-lbl">Target amount</div><div class="met-val">₹8,75,000</div><div class="met-d" style="color:var(--color-text-tertiary);">combined</div></div>
+      <div class="met"><div class="met-lbl">Monthly saving</div><div class="met-val">₹67,660</div><div class="met-d up">avg this year</div></div>
+      <div class="met"><div class="met-lbl">Goals completed</div><div class="met-val">1</div><div class="met-d up">Phone fund · Jan</div></div>
+    </div>
+    <div class="three-col">
+      <div class="goal-card">
+        <div class="goal-icon" style="background:#E1F5EE;">🏥</div>
+        <div class="goal-name">Emergency fund</div>
+        <div class="goal-sub">₹3,20,000 saved · ₹5,00,000 target</div>
+        <div class="goal-pbar"><div class="goal-pfill" style="width:64%;background:#1D9E75;"></div></div>
+        <div class="goal-meta"><span class="up">64% done</span><span>~5 months left</span></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-tertiary);">
+          <span>+₹30,000/mo</span><span>Target: Aug 2026</span>
+        </div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon" style="background:#E6F1FB;">✈️</div>
+        <div class="goal-name">Europe trip</div>
+        <div class="goal-sub">₹68,000 saved · ₹2,00,000 target</div>
+        <div class="goal-pbar"><div class="goal-pfill" style="width:34%;background:#378ADD;"></div></div>
+        <div class="goal-meta"><span style="color:#185FA5;">34% done</span><span>~8 months left</span></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-tertiary);">
+          <span>+₹16,500/mo</span><span>Target: Nov 2026</span>
+        </div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon" style="background:#FAEEDA;">💻</div>
+        <div class="goal-name">MacBook Pro</div>
+        <div class="goal-sub">₹1,10,000 saved · ₹1,75,000 target</div>
+        <div class="goal-pbar"><div class="goal-pfill" style="width:63%;background:#EF9F27;"></div></div>
+        <div class="goal-meta"><span style="color:#854F0B;">63% done</span><span>~2 months left</span></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-tertiary);">
+          <span>+₹21,160/mo</span><span>Target: May 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">Completed goals</span></div>
+      <div class="inv-row" style="border:none;">
+        <div class="inv-logo" style="background:#EAF3DE;color:#3B6D11;font-size:18px;">📱</div>
+        <div><div class="inv-name">New phone fund</div><div class="inv-ticker">Completed Jan 2026 · ₹55,000 saved</div></div>
+        <div style="margin-left:auto;"><span class="tag" style="background:#EAF3DE;color:#3B6D11;">Completed</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">Projected savings timeline</span></div>
+      <div class="chart-wrap"><canvas id="goalChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNTS PAGE -->
+<div id="accounts" class="screen dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>Folia</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="1" width="5" height="5" rx="1" fill="currentColor"/><rect x="1" y="8" width="5" height="5" rx="1" fill="currentColor"/><rect x="8" y="8" width="5" height="5" rx="1" fill="currentColor"/></svg>Overview</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 10L5 7L8 9L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Spending</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5V7l1.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Budgets</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><path d="M2 12V7M5 12V3M8 12V5M12 12V1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Investments</div>
+    <div class="nav-sep"></div>
+    <div class="nav-item active"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 12.5c0-2.761 2.239-4.5 5-4.5s5 1.739 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Accounts</div>
+    <div class="nav-item"><svg class="ni" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 4.5v.5M7 7v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Settings</div>
+    <div class="av-row"><div class="av">AK</div><div><div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Arjun K.</div><div style="font-size:11px;color:var(--color-text-tertiary);">Pro plan</div></div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><div class="pg-title">Accounts</div><div class="pg-sub">5 linked accounts · Last synced 2 min ago</div></div>
+      <button class="btn">+ Link account</button>
+    </div>
+    <div class="metrics">
+      <div class="met"><div class="met-lbl">Total assets</div><div class="met-val">₹18.4L</div><div class="met-d up">↑ 2.3% this month</div></div>
+      <div class="met"><div class="met-lbl">Total liabilities</div><div class="met-val">₹0</div><div class="met-d up">Debt free</div></div>
+      <div class="met"><div class="met-lbl">Net worth</div><div class="met-val">₹18.4L</div><div class="met-d up">↑ ₹41,200 this month</div></div>
+      <div class="met"><div class="met-lbl">Linked banks</div><div class="met-val">3</div><div class="met-d" style="color:var(--color-text-tertiary);">All syncing</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div class="section-label">Bank accounts</div>
+      <div class="acc-card">
+        <div class="acc-icon" style="background:#E6F1FB;">🏦</div>
+        <div><div class="acc-name">HDFC Bank — Savings</div><div class="acc-type">Savings · ****4821</div></div>
+        <div class="acc-bal"><div class="acc-val">₹3,42,000</div><div class="acc-chg up">↑ ₹82,000 this month</div></div>
+      </div>
+      <div class="acc-card">
+        <div class="acc-icon" style="background:#EEEDFE;">🏦</div>
+        <div><div class="acc-name">SBI — Salary Account</div><div class="acc-type">Savings · ****0034</div></div>
+        <div class="acc-bal

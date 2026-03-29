@@ -1,14 +1,23 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from motor.motor_asyncio import AsyncIOMotorClient
+from beanie import init_beanie
 from app.core.config import settings
 
-engine = create_engine(settings.DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+async def init_db():
+    client = AsyncIOMotorClient(settings.MONGODB_URL)
+    db_name = settings.MONGODB_URL.split("/")[-1]
+    database = client[db_name]
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    from app.models.user import User
+    from app.models.account import Account
+    from app.models.transaction import Transaction
+    from app.models.budget import Budget
+    from app.models.goal import Goal
+    from app.models.holding import Holding
+    from app.models.document import BankDocument
+    from app.models.merchant_rule import MerchantRule
+
+    await init_beanie(
+        database=database,
+        document_models=[User, Account, Transaction, Budget, Goal, Holding, BankDocument, MerchantRule],
+    )

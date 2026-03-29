@@ -1,0 +1,253 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-family:'DM Sans',sans-serif;}
+.dash{display:grid;grid-template-columns:220px 1fr;min-height:700px;background:var(--color-background-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid var(--color-border-tertiary);}
+.sidebar{background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);padding:24px 16px;display:flex;flex-direction:column;gap:4px;}
+.logo{font-size:16px;font-weight:500;color:var(--color-text-primary);margin-bottom:28px;display:flex;align-items:center;gap:8px;}
+.logo-dot{width:20px;height:20px;background:#1D9E75;border-radius:6px;display:inline-block;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:13.5px;color:var(--color-text-secondary);cursor:pointer;transition:background 0.15s;}
+.nav-item:hover{background:var(--color-background-secondary);}
+.nav-item.active{background:#E1F5EE;color:#0F6E56;font-weight:500;}
+.nav-icon{width:16px;height:16px;opacity:0.6;flex-shrink:0;}
+.nav-item.active .nav-icon{opacity:1;}
+.nav-sep{height:0.5px;background:var(--color-border-tertiary);margin:12px 0;}
+.avatar-row{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);}
+.avatar{width:32px;height:32px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;flex-shrink:0;}
+.av-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.av-plan{font-size:11px;color:var(--color-text-tertiary);}
+.main{padding:28px 28px;display:flex;flex-direction:column;gap:20px;overflow:hidden;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.page-title{font-size:20px;font-weight:500;color:var(--color-text-primary);}
+.page-sub{font-size:13px;color:var(--color-text-tertiary);margin-top:2px;}
+.btn-primary{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.metric-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;}
+.metric-label{font-size:12px;color:var(--color-text-tertiary);margin-bottom:8px;letter-spacing:0.01em;}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;}
+.metric-delta{font-size:12px;margin-top:6px;}
+.delta-up{color:#0F6E56;}
+.delta-dn{color:#993C1D;}
+.mid-row{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.card-link{font-size:12px;color:#1D9E75;cursor:pointer;}
+.chart-area{position:relative;height:160px;}
+.donut-wrap{display:flex;align-items:center;gap:20px;margin-top:8px;}
+.legend{display:flex;flex-direction:column;gap:8px;flex:1;}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--color-text-secondary);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.leg-pct{margin-left:auto;font-weight:500;color:var(--color-text-primary);font-family:'DM Mono',monospace;font-size:12px;}
+.tx-list{display:flex;flex-direction:column;gap:2px;}
+.tx{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.tx:last-child{border-bottom:none;}
+.tx-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tx-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);}
+.tx-cat{font-size:11.5px;color:var(--color-text-tertiary);}
+.tx-amt{margin-left:auto;font-size:13.5px;font-weight:500;font-family:'DM Mono',monospace;}
+.tx-amt.neg{color:#993C1D;}
+.tx-amt.pos{color:#0F6E56;}
+.goals-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.goal-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;}
+.goal-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;}
+.goal-amt{font-size:11.5px;color:var(--color-text-tertiary);margin-bottom:12px;font-family:'DM Mono',monospace;}
+.progress-bar{height:5px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;margin-bottom:6px;}
+.progress-fill{height:100%;border-radius:99px;}
+.goal-pct{font-size:11.5px;color:var(--color-text-secondary);}
+</style>
+
+<div class="dash">
+  <div class="sidebar">
+    <div class="logo"><span class="logo-dot"></span> Folia</div>
+    <div class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/></svg>
+      Overview
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Spending
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Budgets
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 14V8M6 14V4M10 14V6M14 14V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Investments
+    </div>
+    <div class="nav-sep"></div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Accounts
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v.5M8 7.5v3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Settings
+    </div>
+    <div class="avatar-row">
+      <div class="avatar">AK</div>
+      <div>
+        <div class="av-name">Arjun K.</div>
+        <div class="av-plan">Pro plan</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="page-title">Good morning, Arjun</div>
+        <div class="page-sub">March 2026 · All accounts</div>
+      </div>
+      <button class="btn-primary">+ Add transaction</button>
+    </div>
+
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Net worth</div>
+        <div class="metric-val">₹18.4L</div>
+        <div class="metric-delta delta-up">↑ 2.3% this month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Monthly income</div>
+        <div class="metric-val">₹1,20,000</div>
+        <div class="metric-delta delta-up">↑ ₹8,000 vs last</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Monthly spend</div>
+        <div class="metric-val">₹52,340</div>
+        <div class="metric-delta delta-dn">↑ ₹3,200 vs last</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Saved this month</div>
+        <div class="metric-val">₹67,660</div>
+        <div class="metric-delta delta-up">56% savings rate</div>
+      </div>
+    </div>
+
+    <div class="mid-row">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Cash flow — last 6 months</span>
+          <span class="card-link">Details →</span>
+        </div>
+        <div class="chart-area">
+          <canvas id="cashflowChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Spend by category</span>
+        </div>
+        <div class="donut-wrap">
+          <canvas id="donutChart" width="110" height="110" style="flex-shrink:0;"></canvas>
+          <div class="legend">
+            <div class="leg-row"><span class="leg-dot" style="background:#1D9E75;"></span>Housing<span class="leg-pct">34%</span></div>
+            <div class="leg-row"><span class="leg-dot" style="background:#378ADD;"></span>Food<span class="leg-pct">22%</span></div>
+            <div class="leg-row"><span class="leg-dot" style="background:#EF9F27;"></span>Transport<span class="leg-pct">16%</span></div>
+            <div class="leg-row"><span class="leg-dot" style="background:#D85A30;"></span>Shopping<span class="leg-pct">15%</span></div>
+            <div class="leg-row"><span class="leg-dot" style="background:#B4B2A9;"></span>Other<span class="leg-pct">13%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Recent transactions</span>
+        <span class="card-link">See all →</span>
+      </div>
+      <div class="tx-list">
+        <div class="tx">
+          <div class="tx-icon" style="background:#E1F5EE;">🏠</div>
+          <div><div class="tx-name">Rent — HSR Layout</div><div class="tx-cat">Housing · Mar 1</div></div>
+          <div class="tx-amt neg">−₹22,000</div>
+        </div>
+        <div class="tx">
+          <div class="tx-icon" style="background:#E6F1FB;">🛒</div>
+          <div><div class="tx-name">Zepto grocery order</div><div class="tx-cat">Food · Mar 5</div></div>
+          <div class="tx-amt neg">−₹1,240</div>
+        </div>
+        <div class="tx">
+          <div class="tx-icon" style="background:#EAF3DE;">💼</div>
+          <div><div class="tx-name">Salary — Infosys</div><div class="tx-cat">Income · Mar 5</div></div>
+          <div class="tx-amt pos">+₹1,20,000</div>
+        </div>
+        <div class="tx">
+          <div class="tx-icon" style="background:#FAEEDA;">🚗</div>
+          <div><div class="tx-name">Ola ride</div><div class="tx-cat">Transport · Mar 7</div></div>
+          <div class="tx-amt neg">−₹340</div>
+        </div>
+        <div class="tx">
+          <div class="tx-icon" style="background:#FAECE7;">📱</div>
+          <div><div class="tx-name">Amazon — OnePlus cable</div><div class="tx-cat">Shopping · Mar 9</div></div>
+          <div class="tx-amt neg">−₹899</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-row">
+      <div class="goal-card">
+        <div class="goal-name">Emergency fund</div>
+        <div class="goal-amt">₹3,20,000 of ₹5,00,000</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:64%;background:#1D9E75;"></div></div>
+        <div class="goal-pct">64% complete</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-name">Europe trip</div>
+        <div class="goal-amt">₹68,000 of ₹2,00,000</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:34%;background:#378ADD;"></div></div>
+        <div class="goal-pct">34% complete</div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-name">MacBook Pro</div>
+        <div class="goal-amt">₹1,10,000 of ₹1,75,000</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:63%;background:#EF9F27;"></div></div>
+        <div class="goal-pct">63% complete</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+const months = ['Oct','Nov','Dec','Jan','Feb','Mar'];
+const income = [95000,108000,112000,105000,112000,120000];
+const spend =  [48000,51000,62000,44000,49000,52340];
+
+const isDark = document.documentElement.getAttribute('data-theme')==='dark' || window.matchMedia('(prefers-color-scheme:dark)').matches;
+const textCol = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.35)';
+const gridCol = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+new Chart(document.getElementById('cashflowChart'),{
+  type:'bar',
+  data:{
+    labels:months,
+    datasets:[
+      {label:'Income',data:income,backgroundColor:'#9FE1CB',borderRadius:4,barPercentage:0.45},
+      {label:'Spend',data:spend,backgroundColor:'#F5C4B3',borderRadius:4,barPercentage:0.45}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:8,boxHeight:8,usePointStyle:true,pointStyle:'circle',font:{size:11},color:textCol,padding:16}}},
+    scales:{
+      x:{grid:{display:false},ticks:{font:{size:11},color:textCol},border:{display:false}},
+      y:{grid:{color:gridCol},ticks:{font:{size:11},color:textCol,callback:v=>'₹'+(v/1000)+'k'},border:{display:false}}
+    }
+  }
+});
+
+new Chart(document.getElementById('donutChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Housing','Food','Transport','Shopping','Other'],
+    datasets:[{data:[34,22,16,15,13],backgroundColor:['#1D9E75','#378ADD','#EF9F27','#D85A30','#B4B2A9'],borderWidth:0,hoverOffset:4}]
+  },
+  options:{
+    responsive:false,cutout:'70%',
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+'%'}}}
+  }
+});
+</script>
