@@ -12,6 +12,9 @@ nakama-service/venv/
 nakama-service/.venv/
 nakama-service/uploads/
 
+# Sensitive / sample files — never commit real statements
+sample-files/
+
 # General
 .DS_Store
 *.log
